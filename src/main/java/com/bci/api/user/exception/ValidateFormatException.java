@@ -1,11 +1,11 @@
 package com.bci.api.user.exception;
 
 
-public class ExistEmailException extends RuntimeException {
+public class ValidateFormatException  extends RuntimeException {
 
     private final String message;
 
-    public ExistEmailException(final String message) {
+    public ValidateFormatException(final String message) {
         this.message = message;
 
     }

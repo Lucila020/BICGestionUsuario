@@ -23,27 +23,27 @@ public interface UserService {
      * @param user datos usuario a modificar
      * @return datos del usuario modificado
      */
-    UserResponseDTO updateUser(final Long id, final UserDataDTO user);
+    UserResponseDTO updateUser(final String id, final UserDataDTO user);
 
     /**
      * Eliminacion lógica del usuario por id
      * @param id identificador del usuario
      * @return datos del usuario borrado logicamente
      */
-    UserResponseDTO logicallyDeleteUser(final Long id);
+    UserResponseDTO logicallyDeleteUser(final String id);
 
     /**
      * Obtencion del usuario por id
      * @param id identificador del usuario
      * @return datos del usuario obtenido por el id
      */
-    UserResponseDTO getUserById(final Long id);
+    UserResponseDTO getUserById(final String id);
 
     /**
      * Obtener los usuario
      * @return la lista de usuario
      */
-    List<UserResponseDTO> getAllUsers();
+     List<UserResponseDTO> getAllUsers();
 
     /**
      * Obtener los usuario activos

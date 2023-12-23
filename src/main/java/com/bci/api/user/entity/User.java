@@ -52,6 +52,4 @@ public class User {
    @OneToMany(cascade = CascadeType.ALL)
    @JoinColumn(name = "FK_USER", updatable = false, nullable = false)
    private List<Phone> phones;
-
-
 }

@@ -1,0 +1,12 @@
+{
+    "name":"Juan",
+    "email":"prueba2@test.com",
+    "password":"ABDfswe3",
+    "phones": [
+        {
+            "number":"14432",
+            "citycode":"234",
+            "contrycode":"43"
+        }
+    ]
+}

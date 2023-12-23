@@ -21,6 +21,7 @@ public class UserDTOToUserConverter implements Converter<UserDataDTO, User>{
         user.setId(UUID.randomUUID().toString());
         user.setEmail(source.getEmail());
         user.setName(source.getName());
+        user.setToken(UUID.randomUUID().toString());
         user.setPassword(source.getPassword());
         user.setLastLogin(new Date());
         user.setPhones(getListOfPhone(source.getPhones()));

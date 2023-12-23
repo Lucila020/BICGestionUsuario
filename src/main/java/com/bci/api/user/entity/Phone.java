@@ -31,7 +31,4 @@ public class Phone {
 
     @Column(name = "CONTRY_CODE")
     private String contryCode;
-
-
-
 }

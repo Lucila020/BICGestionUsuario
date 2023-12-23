@@ -60,7 +60,7 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.3.0'
 
 	//swagger
-	//implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
@@ -112,3 +112,21 @@ tasks.withType(Test) {
 	systemProperties = System.properties
 	systemProperties['user.dir'] = workingDir
 }
+
+
+configurations.all {
+
+	resolutionStrategy {
+		force 'org.codehaus.groovy:groovy-all:3.0.13'
+		force 'org.spockframework:spock-core:2.0-groovy-3.0'
+	}
+
+	resolutionStrategy {
+		exclude group: 'org.apache.groovy', module: 'groovy'
+		force 'org.spockframework:spock-core:2.0-groovy-3.0'
+		force 'org.spockframework:spock-spring:2.3-groovy-3.0'
+	}
+
+}
+
+

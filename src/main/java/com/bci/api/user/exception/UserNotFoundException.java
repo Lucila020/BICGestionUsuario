@@ -1,11 +1,16 @@
 package com.bci.api.user.exception;
 
-import com.bci.api.user.dto.ErrorDTO;
-
 public class UserNotFoundException extends RuntimeException {
 
+    private final String message;
 
-    public UserNotFoundException(final ErrorDTO error) {
-        super(error.getMessage());
+    public UserNotFoundException(final String message) {
+        this.message = message;
+
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

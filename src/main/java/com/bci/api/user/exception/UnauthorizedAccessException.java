@@ -1,11 +1,17 @@
 package com.bci.api.user.exception;
 
-import com.bci.api.user.dto.ErrorDTO;
 
 public class UnauthorizedAccessException extends RuntimeException {
 
-    public UnauthorizedAccessException(ErrorDTO error) {
+    private final String message;
 
-        super(String.valueOf(error));
+    public UnauthorizedAccessException(final String message) {
+        this.message = message;
+
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

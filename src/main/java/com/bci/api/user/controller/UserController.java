@@ -5,6 +5,7 @@ import com.bci.api.user.dto.UserResponseDTO;
 import com.bci.api.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * Contrador de Usuarios
+ * Controller de Usuarios
  */
 @Validated
 @Api
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/v1.0/users")
+@RequestMapping(value = "/v1.0/user")
 public class UserController {
 
     @Autowired
@@ -43,36 +44,36 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ApiOperation("Actualización de los datos del usuario por id")
-    public  ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id,
-                                                       @RequestBody UserDataDTO userData) {
+    public  ResponseEntity<UserResponseDTO> updateUser(@ApiParam(name = "id", value = "id del usuario", required = true)
+                                                           @PathVariable("id") String id,
+                                                       @RequestBody final UserDataDTO userData) {
         return new ResponseEntity<>(this.userService.updateUser(id, userData), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation("Borrado logico del usuario por id")
-    public ResponseEntity<UserResponseDTO> logicallyDeleteUser(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> logicallyDeleteUser(@ApiParam(name = "id", value = "id del usuario", required = true)
+                                                                   @PathVariable("id") String id) {
         return new ResponseEntity<>(this.userService.logicallyDeleteUser(id), HttpStatus.OK);
     }
-
 
     @GetMapping
     @ApiOperation("Obtener el listado con todos los usuarios")
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         return new ResponseEntity<>(this.userService.getAllUsers(), HttpStatus.OK);
-
     }
 
     @GetMapping("/{id}")
     @ApiOperation("Obtener los datos del usuario por id")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> getUserById(@ApiParam(name = "id", value = "id del usuario", required = true)
+                                                           @PathVariable("id") String id) {
         return new ResponseEntity<>(this.userService.getUserById(id), HttpStatus.OK);
     }
 
-//    @GetMapping
-    //   @ApiOperation("Obtener el listado de todos los usuarios activos")
-    // public ResponseEntity<List<UserResponseDTO>> getAllUsersActive() {
-    //    return new ResponseEntity<>(this.userService.getAllUsersActive(), HttpStatus.OK);
-    //}
-
+    @GetMapping("/activos")
+    @ApiOperation("Obtener el listado de todos los usuarios activos")
+    public ResponseEntity<List<UserResponseDTO>> getAllUsersActive() {
+        return new ResponseEntity<>(this.userService.getAllUsersActive(), HttpStatus.OK);
+    }
 
 }

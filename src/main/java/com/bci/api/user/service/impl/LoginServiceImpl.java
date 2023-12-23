@@ -1,6 +1,5 @@
 package com.bci.api.user.service.impl;
 
-import com.bci.api.user.dto.ErrorDTO;
 import com.bci.api.user.dto.LoginRequestDTO;
 import com.bci.api.user.dto.LoginResponseDTO;
 import com.bci.api.user.exception.UnauthorizedAccessException;
@@ -22,23 +21,16 @@ public class LoginServiceImpl implements LoginService {
     private final UserRepository userRepository;
 
     @Override
-    public LoginResponseDTO Login(LoginRequestDTO login) {
+    public LoginResponseDTO autenticationUser(LoginRequestDTO login) {
+        log.info("Validacion de datos Login");
         var user= this.userRepository.findByEmailAndIsActiveTrue(login.getEmail())
-                .orElseThrow(() -> new UserNotFoundException(new ErrorDTO("Usuario no existente")));
+                .orElseThrow(() -> new UserNotFoundException("Usuario no existente"));
 
-        if(login.getPassword().equals(user.getPassword())){
-            throw new UnauthorizedAccessException(new ErrorDTO("Usuario o Password incorrectos"));
+        if(!login.getPassword().equals(user.getPassword())){
+            throw new UnauthorizedAccessException("Usuario o Password incorrectos");
         }
-
+        log.info("Login exitoso");
         return new LoginResponseDTO(user.getToken());
     }
 
-    @Override
-    public void changeUserActivationState(Long id) {
-    /**    var user = this.userRepository.findByIsActiveFalse(id).
-                orElseThrow(() -> new UserNotFoundException(new ErrorDTO("Usuario no existente")));
-        user.setActive(true);
-        this.userRepository.save(user);
-**/
-    }
 }

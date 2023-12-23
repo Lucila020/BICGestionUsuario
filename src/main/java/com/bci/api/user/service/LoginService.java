@@ -13,11 +13,6 @@ public interface LoginService {
      * @param login por mail y password
      * @return el token
      */
-    LoginResponseDTO Login(final LoginRequestDTO login);
+    LoginResponseDTO autenticationUser(final LoginRequestDTO login);
 
-    /**
-     *
-     * @param id
-     */
-    void changeUserActivationState(Long id);
 }

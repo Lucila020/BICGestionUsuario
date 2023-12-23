@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * JPA Repository for the {@link com.bci.api.user.entity.User} entity
+ * JPA Repository for the {@link User} entity
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -19,23 +19,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     List<User> findAllByIsActiveTrue();
 
+
     /**
      * Buscar un usuario por mail y que esta activo
-     * @param EmailActivo
+     * @param correoActivo
      * @return el usuario que se encuentre activo y haga match con el mail
      */
-    Optional<User> findByEmailAndIsActiveTrue(String EmailActivo);
+    Optional<User> findByEmailAndIsActiveTrue(String correoActivo);
 
     /**
-     * Buscar un usuario inactivo para activarlo
-     * @param id
-     * @return el usuario que se encuentre activo y haga match con el mail
+     * Se obtiene el usuario por el id generado
+     * @param id identificador del usuario
+     * @return un optional del usuario
      */
-   // Optional<User> findByIsActiveFalse(Long id);
-
-
-
-
-
+    Optional<User> findById(String id);
 
 }

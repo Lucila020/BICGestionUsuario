@@ -1,11 +1,17 @@
 package com.bci.api.user.exception;
 
-import com.bci.api.user.dto.ErrorDTO;
 
 public class InActiveUserException extends RuntimeException {
 
-    public InActiveUserException(final ErrorDTO errorDTO)
-    {
-        super(errorDTO.getMessage());
+    private final String message;
+
+    public InActiveUserException(final String message) {
+        this.message = message;
+
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }
