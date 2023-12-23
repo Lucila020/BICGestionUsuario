@@ -1,0 +1,114 @@
+buildscript {
+	ext {
+		springBootVersion = '2.6.7'
+		version = project.getProperties().get("BUILD_VERSION")
+		group = project.getProperties().get("BUILD_GROUP")
+		springCloudVersion = '2021.0.7'
+	}
+	repositories {
+		mavenCentral()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+		gradlePluginPortal()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7")
+		classpath("gradle.plugin.com.boxfuse.client:gradle-plugin-publishing:5.0.7")
+		classpath("org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:2.0.0")
+		classpath("gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.64")
+		classpath("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+	}
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.0'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.bci'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'javax.servlet:javax.servlet-api:4.0.1'
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+	implementation 'javax.xml.bind:jaxb-api:2.3.0'
+
+	//swagger
+	//implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	//implementation 'io.springfox:springfox-swagger2:2.9.2'
+	//implementation 'io.springfox:springfox-spring-web:2.9.2'
+	//implementation 'io.swagger.core.v3:swagger-annotations:2.2.8'
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+	testCompileOnly 'org.spockframework:spock-spring:2.3-groovy-3.0'
+	testCompileOnly 'cglib:cglib-nodep:3.2.2'
+	testCompileOnly 'com.athaydes:spock-reports:2.5.0-groovy-3.0', { transitive = false }
+	testCompileOnly 'org.jacoco:jacoco-maven-plugin:0.8.2'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+test {
+	useJUnitPlatform()
+	systemProperty 'com.athaydes.spockframework.report.showCodeBlocks', true
+	systemProperty 'com.athaydes.spockframework.report.outputDir', 'build/spock-reports/unit'
+	//workaround para Gradle - JDK 10 - Window
+	def props = [:] << System.properties
+	props.remove("java.vm.vendor")
+	systemProperties props
+	//dependsOn 'swaggerGen'
+}
+
+task allTest(type: Test) {
+	systemProperties System.properties
+	dependsOn 'test'
+
+}
+
+// Para que ejecuten los tests con gitlab-ci
+tasks.withType(Test) {
+	systemProperties = System.properties
+	systemProperties['user.dir'] = workingDir
+}
